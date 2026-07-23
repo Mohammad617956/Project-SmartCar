@@ -14,10 +14,15 @@ myCar.Move(Move_Right,255)
 
 
 vehicle myCar;
+Servo myServo;
+
 
 #define leftLED 2
 #define rightLED 12
 #define Anticlockwise Contrarotate
+#define buzzer 33
+#define servopin 25
+
 void setup()
 {
  Serial.begin(115200);
@@ -25,6 +30,8 @@ void setup()
  pinMode(rightLED, OUTPUT);
 
 myCar.Init();
+myServo.attach(servoPin);
+myServo.write(0);
 
 }
 
@@ -33,10 +40,13 @@ void loop()
 digitalWrite(leftLED, HIGH);
 digitalWrite(rightLED, LOW);
 //myCar.Move(Move_Left, 255);
+//tone(buzzer, 156);
+
 delay(1000);
 
 digitalWrite(leftLED, LOW);
 digitalWrite(rightLED, HIGH);
 //myCar.Move(Move_Right , 255);
+//noTone(buzzer);
 delay(1000);
 }
