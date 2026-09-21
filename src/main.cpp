@@ -47,6 +47,7 @@ void setup()
 {
 Serial.begin(115200);
   myCar.Init();
+  myUltrasonic.Init(13,14);
   /*
  myCar.Move(Forward,255);
  delay(2000);
