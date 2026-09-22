@@ -9,7 +9,7 @@ int UT_distance = 0;
 Servo myServo;
 int closest_object = 1000;
 int closest_object_direction = 0;
-float ms_per_degree = 5.0;
+float ms_per_degree = 11.0;
 
 #define leftLed 2
 #define rightLed 12
@@ -45,9 +45,9 @@ void turn_right(int degrees)
 
 void setup()
 {
-Serial.begin(115200);
+  Serial.begin(115200);
   myCar.Init();
-  myUltrasonic.Init(13,14);
+  myUltrasonic.Init(13, 14);
   /*
  myCar.Move(Forward,255);
  delay(2000);
@@ -77,11 +77,10 @@ Serial.begin(115200);
   // pinMode(rightLed,OUTPUT);
 
   // eye sensor
-  //Serial.begin(115200);
-  //myUltrasonic.Init(13, 14);
+  // Serial.begin(115200);
+  // myUltrasonic.Init(13, 14);
 
-  //tone(buzzer,262);
-  
+  // tone(buzzer,262);
 
   myServo.attach(servoPin); // initialize servo motor)
   myServo.write(0);
@@ -90,7 +89,7 @@ Serial.begin(115200);
   {
     // Servo motor from 0 degress to 180 degrees
     myServo.write(angle);
-    Serial.println(angle);
+    // Serial.println(angle);
     delay(10);
     UT_distance = myUltrasonic.Ranging();
     if (UT_distance < closest_object)
@@ -99,10 +98,18 @@ Serial.begin(115200);
       closest_object_direction = angle;
     }
   }
-  Serial.println(closest_object_direction);
+
   myServo.write(90);
   int relative_object_angle = closest_object_direction - 90;
   int required_turn_degrees = 180 - closest_object_direction;
+  Serial.print("Closest Object Direction: ");
+  Serial.print(closest_object_direction);
+  Serial.print(", ");
+  Serial.print("Relative Object Angle: ");
+  Serial.print(relative_object_angle);
+  Serial.print(", ");
+  Serial.print("Required Turn Degress: ");
+  Serial.println(required_turn_degrees);
   if (required_turn_degrees > 0)
   {
     turn_left(required_turn_degrees);
