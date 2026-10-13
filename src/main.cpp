@@ -28,7 +28,7 @@ uint32_t current_decode = 0;// Variable to store the currently decoded raw data
 #define Right_sensor 39 //declare the pin of right tracking sensor
 
 IRrecv myIRrecv(IRpin);//Creating an infrared receiver object
-int Speed = 255;
+int Speed = 167;
 
 
 void turn_left(int degrees)
@@ -141,18 +141,18 @@ myCar.Move(Move_Right, 255):
 
 void loop()
 {
-  /*
+  
   //flash left then right
   digitalWrite(leftLed, HIGH);
-  digitalWrite(rightLed, LOW);
+  digitalWrite(rightLed, HIGH);
 
   delay(1000);
 
   digitalWrite(leftLed, LOW);
-  digitalWrite(rightLed, HIGH);
+  digitalWrite(rightLed, LOW);
 
   delay(1000);
-  */
+  
 
   /*Eye sensor v1
   UT_distance = myUltrasonic.Ranging();
