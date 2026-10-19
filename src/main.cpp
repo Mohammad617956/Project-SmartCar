@@ -201,6 +201,8 @@ case 0xE916FF00: myCar.Move(Move_Left, Speed); break;
 // Press button "1" to move left
 case 0xF20DFF00: myCar.Move(Move_Right, Speed); break;
 // Press button "3" to move right
+case 0xBF40FF00:
+
 }
 last_decode = current_decode;
 // Update the stored previous decodedRawData
