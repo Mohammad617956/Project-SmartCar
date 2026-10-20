@@ -12,6 +12,11 @@ int closest_object = 1000;
 int closest_object_direction = 0;
 float ms_per_degree = 11.0;
 
+bool areLightsOn = false;
+
+unsigned long lastTriggerTime = 0;
+const unsigned long debounceDelay = 200; // Ignore triggers within 200ms
+
 int IRpin = 4;
 unsigned long lastCommandTime; // Record the time of the last received command
 const unsigned long commandTimeout = 100; // Set the timeout period (milliseconds)
@@ -96,8 +101,8 @@ void setup()
   }
 
   // lights
-  // pinMode(leftLed, OUTPUT);
-  // pinMode(rightLed,OUTPUT);
+  pinMode(leftLed, OUTPUT);
+  pinMode(rightLed,OUTPUT);
 
   // eye sensor
   // Serial.begin(115200);
@@ -143,15 +148,15 @@ void loop()
 {
   
   //flash left then right
-  digitalWrite(leftLed, HIGH);
-  digitalWrite(rightLed, HIGH);
+  // digitalWrite(leftLed, HIGH);
+  // digitalWrite(rightLed, HIGH);
 
-  delay(1000);
+  // delay(1000);
 
-  digitalWrite(leftLed, LOW);
-  digitalWrite(rightLed, LOW);
+  // digitalWrite(leftLed, LOW);
+  // digitalWrite(rightLed, LOW);
 
-  delay(1000);
+  // delay(1000);
   
 
   /*Eye sensor v1
@@ -201,9 +206,31 @@ case 0xE916FF00: myCar.Move(Move_Left, Speed); break;
 // Press button "1" to move left
 case 0xF20DFF00: myCar.Move(Move_Right, Speed); break;
 // Press button "3" to move right
-case 0xBF40FF00:
+case 0xBF40FF00: 
+unsigned long currentTime = millis();
+    
+    if (currentTime - lastTriggerTime >= debounceDelay) {
+      lastTriggerTime = currentTime;
+      areLightsOn = !areLightsOn;
+      // Perform your action here safely once per event
+      Serial.println("IR Event Registered!");
+    }
+    break;
+
+
 
 }
+
+if (areLightsOn) {
+  digitalWrite(leftLed, HIGH);
+  digitalWrite(rightLed, HIGH);
+} else {
+  digitalWrite(leftLed, LOW);
+  digitalWrite(rightLed, LOW);
+}
+
+
+
 last_decode = current_decode;
 // Update the stored previous decodedRawData
 myIRrecv.resume(); // Wait for the next IR signal
